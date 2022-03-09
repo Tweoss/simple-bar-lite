@@ -17,14 +17,19 @@ const Process = ({ currentWindow }) => {
     const process = await Uebersicht.run(`osascript -e 'tell application "System Events" to get name of application processes whose frontmost is true and visible is true'`);
     setOutput({ process: Output.cleanup(process) })
   }
-  
-  
-    Uebersicht.React.useEffect(() => {
-      const init = async () => {
-        await getFrontApp()
+
+
+  Uebersicht.React.useEffect(() => {
+    const init = async () => {
+      if (!currentWindow) {
+        return await getFrontApp();
+      } else {
+        return "";
       }
-      init()
-    });
+    }
+    init()
+  });
+
   const processName = () => {
     if (!currentWindow) {
       if (!output) {
